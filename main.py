@@ -4,6 +4,7 @@ from selenium import webdriver
 #service = Service('C:\chromedriver.exe')
 import time
 from selenium.webdriver.common.keys import Keys
+import datetime as dt
 
 def get_driver():
   # Configuración de parametros iniciales
@@ -92,6 +93,12 @@ def get_driver_Exercise1():
   driver.get("http://automated.pythonanywhere.com/login/")
   return driver
 
+def create_file(fileName,text):
+  with open(fileName, "w") as file:
+    file.write(text)
+  file.close()
+
+
 def main_Exercise1():
   driver=get_driver_LoginApp()  
 
@@ -105,10 +112,21 @@ def main_Exercise1():
   driver.find_element(by="xpath",value="/html/body/nav/div/a").click()
   time.sleep(2)
 
-  # Extraer texto de la temperatura
-  temperatura=driver.find_element(by="xpath",value="/html/body/div[1]/div/h1[2]").text
-  return clean_text(temperatura)
+  while True:
+    # Extraer texto de la temperatura
+    temperatura=driver.find_element(by="xpath",value="/html/body/div[1]/div/h1[2]").text
+    temperatura=clean_text(temperatura)
+  
+    # Crear nuevo archivo TXT para guardar el valor
+    timestr = time.strftime("%Y%m%d-%H%M%S")
+    fileName=timestr+".txt"
+    text="Fecha: "+timestr+" "+"Temperatura: "+str(temperatura)
+    create_file(fileName,text)
+    
+    print("Fecha: "+timestr+" "+"Temperatura: "+str(temperatura))
+    
 
-
+    time.sleep(2)
+      
 """Ejercicio Practico"""
 print(main_Exercise1())
