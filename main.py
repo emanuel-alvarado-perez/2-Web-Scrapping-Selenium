@@ -75,6 +75,9 @@ def main_LoginApp():
 #print(main_LoginApp())
 
 
+"""
+EJERCICIO #1
+Objetivo del Ejercicio: Entrar a página web, hacer login y obtener la temperatura, crear un archivo con timestamp y almacenarlo"""
 def get_driver_Exercise1():
   # Configuración de parametros iniciales
   options=webdriver.ChromeOptions() #Version Replit
@@ -121,12 +124,57 @@ def main_Exercise1():
     timestr = time.strftime("%Y%m%d-%H%M%S")
     fileName=timestr+".txt"
     text="Fecha: "+timestr+" "+"Temperatura: "+str(temperatura)
-    create_file(fileName,text)
     
+    #Llamar a la función
+    create_file(fileName,text)
+    #Imprimir en pantalla
     print("Fecha: "+timestr+" "+"Temperatura: "+str(temperatura))
     
-
+    #Espera 2 segundos
     time.sleep(2)
       
 """Ejercicio Practico"""
-print(main_Exercise1())
+#print(main_Exercise1())
+
+"""EJERCICIO #2
+Abrir pagina de Compras Online, iniciar sesion e ir a pestaña de Contact Us
+"""
+def get_driver_Exercise2():
+  # Configuración de parametros iniciales
+  options=webdriver.ChromeOptions() #Version Replit
+
+  options.add_argument("disable-infobars") #Deshabilitar msj de info 
+  options.add_argument("start-maximized") #Maximizar pantalla
+  options.add_argument("disable-dev-shm-usage") #Evitar errones linux
+  options.add_argument("no-sandbox") #Mayores permisos en el sitio web
+
+  #Evita que Selenium sea identificado por el Navegador
+  options.add_experimental_option("excludeSwitches", ["enable-automation"]) 
+  options.add_argument("disable-blink-features=AutomationControlled") 
+
+  #Inicializar clase Driver con opciones seteadas
+  driver=webdriver.Chrome(options=options)
+  driver.get("https://titan22.com/")
+  return driver
+
+def main_Exercise2():
+  driver=get_driver_Exercise2()  
+
+  # Ingresar a Sign In
+  driver.find_element(by="xpath",value="/html/body/header/div[1]/div[1]/div/div[3]/a[2]").click()
+  time.sleep(4)
+
+  # Completar credenciales
+  driver.find_element(by="id",value="CustomerEmail").send_keys("usuario")
+  time.sleep(2)
+  driver.find_element(by="id",value="CustomerPassword").send_keys("contrasenia")
+  time.sleep(2)
+
+  #Ir a Contact Us
+  driver.find_element(by="xpath",value="/html/body/footer/div/section/div/div[1]/div[1]/div[1]/nav/ul/li[1]/a").click()
+  time.sleep(2)
+
+"""Ejercicio Practico 2"""
+print(main_Exercise2())
+
+
